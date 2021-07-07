@@ -3,7 +3,7 @@ GET http://localhost:4341/blocks
 ###
 
 ###
-GET http://localhost:4341/blocks/test1
+GET http://localhost:4341/blocks/chain_peer
 
 
 ###
@@ -11,14 +11,97 @@ POST http://localhost:4341/blocks
 Content-Type: application/json
 
 {
-    "index":2,
-    "nonce": 5147,
+    "index":1,
+    "nonce": 5642,
     "data": { "text" : "ben is the king"},
-    "type_code": "test1"
+    "type_code": "single-block"
+}
+
+###
+POST http://localhost:4341/blocks
+Content-Type: application/json
+
+{
+    "peers": ["A","B","C"],
+    "index":1,
+    "nonce": 674,
+    "data": { "text" : "vik is the king"},
+    "type_code": "single-block-peer"
 }
 
 ###
 POST http://localhost:4341/chain
 Content-Type: application/json
 
-{"index":2}
+{
+    "data":[
+{
+    "index":1,
+    "nonce": 666,
+    "data": { "text" : "yoni is the king"},
+    "type_code": "chain"
+},
+{
+    "index":2,
+    "nonce": 849,
+    "data": { "text" : "ron is the king"},
+    "type_code": "chain"
+}
+]
+}
+
+
+
+###
+POST http://localhost:4341/chain
+Content-Type: application/json
+
+{
+    "peers": ["A","B","C"],
+    "data":[
+{
+    "index":1,
+    "nonce": 351,
+    "data": { "text" : "jon is the king"},
+    "type_code": "chain_peer"
+},
+{
+    "index":2,
+    "nonce": 151,
+    "data": { "text" : "kim is the king"},
+    "type_code": "chain_peer"
+}
+]
+}
+
+
+POST http://localhost:4341/hash/block
+Content-Type: application/json
+
+{
+    "index":1,
+    "nonce": 351,
+    "data": { "text" : "jon is the king"},
+}
+
+
+POST http://localhost:4341/hash/chain
+Content-Type: application/json
+
+{
+"data":[
+{
+    "index":1,
+    "nonce": 351,
+    "data": { "text" : "jon is the king"},
+    "prev": ""
+},
+{
+    "index":2,
+    "nonce": 151,
+    "data": { "text" : "kim is the king"},
+    "prev": "b105e84c94f005a80812acb92c0142518190c2f0288093d55580d91a51397060"
+}
+]
+}
+

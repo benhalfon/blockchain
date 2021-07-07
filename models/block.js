@@ -10,7 +10,7 @@ const schema = new mongoose.Schema({
         require: true
     },
     data: {
-        type: String,
+        type: Object,
         require: true
     },
     hash: {

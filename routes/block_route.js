@@ -21,19 +21,39 @@ router.post('/', async(req, res) => {
         req.body.previousHash == undefined ? '' : req.body.previousHash
     )
 
-    const block = new Block({
-        num: core.index,
-        nonce: core.nonce,
-        data: core.data,
-        hash: core.hash,
-        peer: req.body.peer !== undefined ? null : req.body.previousHash,
-        prev: req.body.prev !== undefined ? null : req.body.prev,
-        type_code: req.body.type_code
-    });
-    try {
-        const newBlock = await block.save();
-        res.status(201).json(newBlock);
-    } catch (err) { res.status(400).json({ message: err.message }); }
+    if (req.body.peers == undefined) {
+        const block = new Block({
+            num: req.body.index,
+            nonce: req.body.nonce,
+            data: req.body.data,
+            hash: core.hash,
+            prev: req.body.previousHash !== undefined ? null : req.body.previousHash,
+            type_code: req.body.type_code
+        });
+        try {
+            const newBlock = await block.save();
+            res.status(201).json(newBlock);
+        } catch (err) { res.status(400).json({ message: err.message }); }
+    } else {
+        const blocks = []
+        req.body.peers.forEach(peerItem => {
+            blocks.push(new Block({
+                num: req.body.index,
+                nonce: req.body.nonce,
+                data: req.body.data,
+                hash: core.hash,
+                prev: core.previousHash,
+                type_code: req.body.type_code,
+                peer: peerItem
+            }))
+        });
+        Block.insertMany(blocks).then((docs) => {
+            res.status(201).json(docs);
+        }).catch((err) => {
+            res.status(400).json({ message: err.message });
+        });
+
+    }
 })
 
 
