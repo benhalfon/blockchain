@@ -127,3 +127,16 @@ Content-Type: application/json
     "nonce": 351,
     "data": { "text" : "jon is the king"}
 }
+
+###
+POST http://localhost:4341/key
+Content-Type: application/json
+
+{
+    "privateKey": "regokekgowgowgpoweg",
+    "publicKey": "gowkgokwogow35t2j"
+}
+
+
+###
+GET http://localhost:4341/key

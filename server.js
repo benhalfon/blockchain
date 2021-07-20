@@ -20,4 +20,7 @@ app.use('/chain', chainRouter)
 const mineRouter = require('./routes/mine_route')
 app.use('/mine', mineRouter)
 
+const keyRouter = require('./routes/key_route')
+app.use('/key', keyRouter)
+
 app.listen(4341, () => console.log('Server Started'))
