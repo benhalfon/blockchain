@@ -17,5 +17,7 @@ app.use('/blocks', blocksRouter)
 const chainRouter = require('./routes/chain_route')
 app.use('/chain', chainRouter)
 
+const mineRouter = require('./routes/mine_route')
+app.use('/mine', mineRouter)
 
 app.listen(4341, () => console.log('Server Started'))

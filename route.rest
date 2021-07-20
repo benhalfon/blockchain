@@ -1,6 +1,16 @@
 GET http://localhost:4341/blocks
 
-###
+
+###Delete all db content
+DELETE http://localhost:4341/blocks
+
+###Delete by type
+DELETE http://localhost:4341/blocks
+Content-Type: application/json
+
+{
+    "type_code": "single-block"
+}
 
 ###
 GET http://localhost:4341/blocks/chain_peer
@@ -11,6 +21,7 @@ POST http://localhost:4341/blocks
 Content-Type: application/json
 
 {
+    "mine": true,
     "index":1,
     "nonce": 5642,
     "data": { "text" : "ben is the king"},
@@ -34,6 +45,7 @@ POST http://localhost:4341/chain
 Content-Type: application/json
 
 {
+    "mine": true,
     "data":[
 {
     "index":1,
@@ -75,16 +87,17 @@ Content-Type: application/json
 }
 
 
+###
 POST http://localhost:4341/hash/block
 Content-Type: application/json
 
 {
     "index":1,
     "nonce": 351,
-    "data": { "text" : "jon is the king"},
+    "data": { "text" : "jon is the king"}
 }
 
-
+###
 POST http://localhost:4341/hash/chain
 Content-Type: application/json
 
@@ -105,3 +118,12 @@ Content-Type: application/json
 ]
 }
 
+###
+POST http://localhost:4341/mine
+Content-Type: application/json
+
+{
+    "index":1,
+    "nonce": 351,
+    "data": { "text" : "jon is the king"}
+}

@@ -3,7 +3,7 @@ const router = express.Router()
 const Block = require('../models/block')
 const { BlockCore, BlockchainCore } = require('../entity/block_core')
 
-//Getting by type
+//Getting all blocks
 router.get('/', async(req, res) => {
     try {
         const blocks = await Block.find();
@@ -11,20 +11,30 @@ router.get('/', async(req, res) => {
     } catch (err) { res.status(500).json({ message: err.message }) }
 })
 
+//Delete all blocks
+router.delete('/', async(req, res) => {
+    try {
+        await Block.deleteMany(req.body);
+    } catch (err) { res.status(500).json({ message: err.message }) }
+})
 
-
+//Post new block
 router.post('/', async(req, res) => {
     const core = new BlockCore(
         req.body.index,
-        req.body.nonce,
+        req.body.nonce == undefined ? 1 : req.body.nonce,
         req.body.data,
         req.body.previousHash == undefined ? '' : req.body.previousHash
     )
 
+    if (req.body.mine == true) {
+        core.mine();
+    }
+
     if (req.body.peers == undefined) {
         const block = new Block({
             num: req.body.index,
-            nonce: req.body.nonce,
+            nonce: core.nonce,
             data: req.body.data,
             hash: core.hash,
             prev: req.body.previousHash !== undefined ? null : req.body.previousHash,
@@ -39,7 +49,7 @@ router.post('/', async(req, res) => {
         req.body.peers.forEach(peerItem => {
             blocks.push(new Block({
                 num: req.body.index,
-                nonce: req.body.nonce,
+                nonce: core.nonce,
                 data: req.body.data,
                 hash: core.hash,
                 prev: core.previousHash,
@@ -57,8 +67,7 @@ router.post('/', async(req, res) => {
 })
 
 
-
-
+//Getting blocks by type
 router.get('/:typeCode', getBlockByType, (req, res) => {
     res.send(res.blocks)
 })
@@ -73,14 +82,5 @@ async function getBlockByType(req, res, next) {
     res.blocks = blocks;
     next()
 }
-
-router.post('mine/:type_code', async(req, res) => {
-    num = req.body.name
-    nonce = req.body.nonce
-    data = req.body.data
-    type_code = req.body.type_code
-    mine =
-        res.send(req.params.type_code)
-})
 
 module.exports = router
