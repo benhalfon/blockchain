@@ -1,4 +1,4 @@
-const SHA256 = require("crypto-js/SHA256");
+const sha256 = require("sha256");
 const MINE_PREFIX = "0000";
 
 class BlockCore {
@@ -8,12 +8,12 @@ class BlockCore {
         this.nonce = nonce;
         this.data = JSON.stringify(data).toString();
         this.previousHash = previousHash;
+        this.hash="";
         this.updateHash();
     }
 
     updateHash() {
-        this.hash = null;
-        this.hash = SHA256(Object.values(this).filter((a) => a != null).reduce((a, b) => a + '' + b, ''));
+        this.hash = sha256(Object.values(this).filter((a) => a != null).reduce((a, b) => a + '' + b, ''));
     }
 
     mine() {
@@ -31,15 +31,17 @@ class BlockchainCore {
     }
     addBlock(newBlock, mine = false) {
         if (this.chain.length == 0) {
-            newBlock.previousHash = ''
+            newBlock.previousHash = "000000000000000000000000000000000000000000000000000000000000000";
         } else {
             newBlock.previousHash = this.chain[this.chain.length - 1].hash;
         }
         if (mine)
             newBlock.mine();
-        else
+        else {
+            console.log("before update hash in addBlock "+newBlock.hash);
             newBlock.updateHash();
-
+            console.log("after update hash in addBlock "+newBlock.hash);
+        }
         this.chain.push(newBlock);
     }
 }

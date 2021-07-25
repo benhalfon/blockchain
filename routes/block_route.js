@@ -20,7 +20,7 @@ router.delete('/', async(req, res) => {
 
 //Post new block
 router.post('/', async(req, res) => {
-    const core = new BlockCore(
+    let core = new BlockCore(
         req.body.index,
         req.body.nonce == undefined ? 1 : req.body.nonce,
         req.body.data,

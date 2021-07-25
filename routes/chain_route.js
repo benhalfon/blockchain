@@ -7,19 +7,18 @@ router.post('/', async(req, res) => {
     const blocks = []
     const currentChain = new BlockchainCore();
     req.body.data.forEach(element => {
-        const core = new BlockCore(
+        let core = new BlockCore(
             element.index,
             element.nonce == undefined ? 1 : element.nonce,
             element.data,
-            element.previousHash == undefined ? '' : element.previousHash
+            element.previousHash
         );
-
-
+        /*
         if (req.body.mine == true) {
             core.mine();
         }
-
-        currentChain.addBlock(core);
+        */
+        currentChain.addBlock(core,true);
         if (req.body.peers == undefined) {
             blocks.push(new Block({
                 num: element.index,
@@ -35,14 +34,15 @@ router.post('/', async(req, res) => {
                     num: element.index,
                     nonce: core.nonce,
                     data: element.data,
-                    hash: core.hash,
-                    prev: core.previousHash,
+                    hash: String(core.hash),
+                    prev: String(core.previousHash),
                     type_code: element.type_code,
                     peer: peerItem
                 }));
             });
         }
     });
+    console.log(blocks);
     Block.insertMany(blocks).then((docs) => {
         res.status(201).json(docs);
     }).catch((err) => {

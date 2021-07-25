@@ -9,6 +9,13 @@ const db = mongoose.connection
 db.on('error', (error) => console.error(error))
 db.once('open', () => console.log('Connected to Database'))
 
+app.all('/*', function(req,res,next){
+    res.header('Access-Control-Allow-Origin','*');
+    res.header('Access-Control-Allow-Methods','GET,PUT,POST,DELETE');
+    res.header('Access-Control-Allow-Headers','Content-Type');
+    next();
+});
+
 app.use(express.json())
 
 const blocksRouter = require('./routes/block_route')
@@ -22,5 +29,7 @@ app.use('/mine', mineRouter)
 
 const keyRouter = require('./routes/key_route')
 app.use('/key', keyRouter)
+
+
 
 app.listen(4341, () => console.log('Server Started'))

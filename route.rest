@@ -15,6 +15,31 @@ Content-Type: application/json
 ###
 GET http://localhost:4341/blocks/chain_peer
 
+###
+GET http://localhost:4341/blocks/single_block
+
+###
+GET http://localhost:4341/blocks/thin_blockchain
+
+###
+GET http://localhost:4341/blocks/distributed
+
+###
+GET http://localhost:4341/blocks/tokens
+
+###
+GET http://localhost:4341/blocks/coinbase
+
+###
+GET http://localhost:4341/blocks/full_blockchain
+
+###
+GET http://localhost:4341/blocks/
+
+###
+GET http://localhost:4341/key/generate 
+
+
 
 ###
 POST http://localhost:4341/blocks
@@ -25,7 +50,7 @@ Content-Type: application/json
     "index":1,
     "nonce": 5642,
     "data": { "text" : "ben is the king"},
-    "type_code": "single-block"
+    "type_code": "single_block"
 }
 
 ###
@@ -140,3 +165,27 @@ Content-Type: application/json
 
 ###
 GET http://localhost:4341/key
+
+
+
+
+//thin blockchain
+###
+POST http://localhost:4341/chain
+Content-Type: application/json
+{
+    "data":[
+        {
+            "type_code": "thin_blockchain"  
+        },
+        {
+            "type_code": "thin_blockchain"
+        },
+        {
+            "type_code": "thin_blockchain"
+        },
+        {
+            "type_code": "thin_blockchain"
+        }
+    ]
+}
