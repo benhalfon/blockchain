@@ -39,6 +39,8 @@ GET http://localhost:4341/blocks/
 ###
 GET http://localhost:4341/key/generate 
 
+###
+GET http://localhost:4341/key/sign/
 
 
 ###

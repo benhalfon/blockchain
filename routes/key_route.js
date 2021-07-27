@@ -49,4 +49,25 @@ router.get('/generate', async(req, res) => {
     } catch (err){ res.status(500).json({ message: err.message }) }
 })
 
+router.get('/sign/:stringOfObject',async(req,res) => {
+    try{
+    const keys=await KeyModel.find();
+    const sign = crypto.createSign('SHA256');
+    sign.write(req.params.stringOfObject);
+    sign.end();
+    const signature = sign.sign(keys[0].privateKey, 'hex');
+    res.json(signature);
+    } catch  (err){ res.status(500).json({message: err.message})}
+})
+router.get('/verify/:stringOfObject/:signOfObject',async(req,res)  => {
+    try{
+        const keys=await KeyModel.find();
+        const verify=crypto.createVerify('SHA256');
+        verify.write(req.params.stringOfObject);
+        verify.end();
+        const verification = verify.verify(keys[0].publicKey,req.params.signOfObject,'hex');
+        res.json(verification);
+    } catch  (err){ res.status(500).json({message: err.message})}
+})
+
 module.exports = router

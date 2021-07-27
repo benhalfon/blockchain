@@ -13,11 +13,11 @@ class BlockCore {
     }
 
     updateHash() {
-        this.hash = sha256(Object.values(this).filter((a) => a != null).reduce((a, b) => a + '' + b, ''));
+        this.hash = sha256(this.nonce+this.data+this.previousHash);
     }
 
     mine() {
-        this.nonce = 1;
+        this.nonce = 0;
         while (!String(this.hash).startsWith(MINE_PREFIX)) {
             this.nonce++;
             this.updateHash();
