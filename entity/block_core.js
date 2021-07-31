@@ -18,6 +18,7 @@ class BlockCore {
 
     mine() {
         this.nonce = 0;
+        this.updateHash();
         while (!String(this.hash).startsWith(MINE_PREFIX)) {
             this.nonce++;
             this.updateHash();
