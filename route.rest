@@ -40,12 +40,12 @@ GET http://localhost:4341/blocks/
 GET http://localhost:4341/key/generate 
 
 ###
-GET http://localhost:4341/key/sign/
+GET http://localhost:4341/key/sign/fraga
 
 
 ###
 POST http://localhost:4341/blocks
-Content-Type: application/json
+Content-Type: application/json  
 
 {
     "mine": true,

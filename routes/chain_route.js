@@ -13,11 +13,11 @@ router.post('/', async(req, res) => {
             element.data,
             element.previousHash
         );
-        /*
+        
         if (req.body.mine == true) {
             core.mine();
         }
-        */
+        
         currentChain.addBlock(core,true);
         if (req.body.peers == undefined) {
             blocks.push(new Block({
